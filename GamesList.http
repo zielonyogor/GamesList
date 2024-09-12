@@ -1,0 +1,44 @@
+@GamesList_HostAddress = http://localhost:5132
+
+GET {{GamesList_HostAddress}}/api/games/
+Accept: application/json
+
+###
+
+GET {{GamesList_HostAddress}}/api/games/1
+Accept: application/json
+
+###
+
+POST {{GamesList_HostAddress}}/api/games/
+Content-Type: application/json
+
+{
+  "title": "Hollow Knight",
+  "description": "Explore a vast interconnected world",
+  "releaseTime": "2021-09-12T14:30:00",
+  "rating": 5,
+  "imageUri": "https://example.com/hollow-knight.jpg",
+  "tags": ["cozy", "indie", "platformer"]
+}
+
+###
+
+PUT {{GamesList_HostAddress}}/api/games/3
+Content-Type: application/json
+
+{
+  "id": 3,
+  "title": "Oneshot",
+  "description": "You only have one shot",
+  "releaseTime": "2016-01-01T14:30:00",
+  "rating": 10,
+  "imageUri": "https://pbs.twimg.com/profile_images/1610231810201636870/Nj3OUXrQ_400x400.jpg",
+  "tags": ["rpgmaker", "indie", "pixel"]
+}
+
+###
+
+DELETE {{GamesList_HostAddress}}/api/games/2
+
+###
