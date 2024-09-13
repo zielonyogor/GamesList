@@ -7,41 +7,16 @@
 
 
 <div class="main">
-    <table>
-        <thead class="text-xl-start">
-            <th class="col-sm-1">IMAGE</th>
-            <th>TITLE</th>
-            <th class="col-sm-4">DESCRIPTION</th>
-            <th>RELEASE DATE</th>
-            <th>RATING</th>
-            <th>TAGS</th>
-        </thead>
-        <tbody>
-            @foreach(var game in Games)
-            {
-                <tr>
-                    <td><img src="@game.ImageUri" width=100px height=100px/></td>
-                    <td>@game.Title</td>
-                    <td>@game.Description</td>
-                    <td>@game.ReleaseTime.Year</td>
-                    <td>@game.Rating</td>
-                    <td>
-                        @foreach(var tag in game.Tags)
-                        {
-                            <span style="padding-right: 1rem;">@tag</span>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    
 </div>
 
 @code {
     List<GameDto> Games = new List<GameDto>();
+    
+    public bool isEditing = false;
 
     protected override async Task OnInitializedAsync()
     {
-        Games = await HttpClient.GetFromJsonAsync<List<GameDto>>(NavigationManager.BaseUri + "api/games");
+        Games = await HttpClient.GetFromJsonAsync<List<GameDto>>(NavigationManager.BaseUri + "api/games") ?? Games;
     } 
 }
