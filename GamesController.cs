@@ -27,6 +27,8 @@ public class GamesController : Controller
             Id = g.Id,
             Title = g.Title,
             Description = g.Description,
+            ReleaseTime = g.ReleaseTime,
+            PlayingSinceTime = g.PlayingSinceTime,
             Rating = g.Rating,
             ImageUri = g.ImageUri,
             Tags = g.GameTags.Select(gt => gt.Tag.Name).ToList()
@@ -53,6 +55,8 @@ public class GamesController : Controller
             Id = game.Id,
             Title = game.Title,
             Description = game.Description,
+            ReleaseTime = game.ReleaseTime,
+            PlayingSinceTime = game.PlayingSinceTime,
             Rating = game.Rating,
             ImageUri = game.ImageUri,
             Tags = game.GameTags.Select(gt => gt.Tag.Name).ToList()
@@ -82,6 +86,7 @@ public class GamesController : Controller
             Title = gameDto.Title,
             Description = gameDto.Description,
             ReleaseTime = gameDto.ReleaseTime,
+            PlayingSinceTime = gameDto.PlayingSinceTime,
             Rating = gameDto.Rating,
             ImageUri = gameDto.ImageUri,
             GameTags = tags.Select(tag => new GameTags
@@ -138,6 +143,7 @@ public class GamesController : Controller
         game.Title = gameDto.Title;
         game.Description = gameDto.Description;
         game.ReleaseTime = gameDto.ReleaseTime;
+        game.PlayingSinceTime = gameDto.PlayingSinceTime;
         game.Rating = gameDto.Rating;
         game.ImageUri = gameDto.ImageUri;
 

@@ -32,7 +32,12 @@ public class GameContext : DbContext
             .HasForeignKey(t => t.TagId);
 
         builder.Entity<Game>().HasData(
-            new Game {Id = 1, Title="Genshin Impact", Description = "Step into vast world", ImageUri="meow", Rating=1, ReleaseTime=DateTime.Now});
+            new Game {Id = 1, Title="Genshin Impact", 
+            Description = "Step into vast magical world of Adventure", 
+            ImageUri = "https://variety.com/wp-content/uploads/2022/09/Genshin-Impact-Anime-Series-Concept.png", 
+            Rating = 6, 
+            ReleaseTime = DateTime.Parse("Sep 28, 2020"),
+            PlayingSinceTime = DateTime.Parse("Mar 31, 2021")});
         builder.Entity<Tag>().HasData(
             new Tag {Id = 1, Name = "RPG"},
             new Tag {Id = 2, Name = "cozy"}
