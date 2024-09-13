@@ -97,6 +97,7 @@ public class GamesController : Controller
 
         _db.Games.Add(game);
         await _db.SaveChangesAsync();
+        gameDto.Id = game.Id;
 
         return CreatedAtAction(nameof(GetGame), new { id = game.Id }, gameDto);
     }

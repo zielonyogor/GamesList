@@ -3,20 +3,127 @@
 @inject NavigationManager NavigationManager
 @using GamesList
 
-<h4>Helloooo</h4>
+<nav class="navbar bg-body-tertiary">
+     <div class="container-fluid align-items-center">
+        <h4 class="h4 ms-2">MY GAMES LIST</h4>
+        <form class="d-flex" role="search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        </form>
+    <button class="btn btn-outline-success my-2" @onclick="@DeleteGame">Delete</button>
+    <button class="btn btn-outline-success my-2">Add</button>
+    </div>
+</nav>
 
 
-<div class="main">
-    
+<div class="main grid m-3">
+    <div class="row">
+        <div class="col-4">
+            @foreach(var game in Games)
+            {
+                <div class="card my-4">
+                    <div class="card-body">
+                        <img src="@game.ImageUri" class="rounded" width="100px" height="100px">
+                        <span class="h5">@game.Title</span>
+                        <button class="btn btn-outline-dark float-end" @onclick="@(e => ChangeShownGame(@game.Title))">Details</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-4 offset-2 position-static">
+            @if(ShownGame is not null)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title h5">@ShownGame.Title</div>
+                        <div class="row">
+                            <div class="col-3">
+                                Rating:
+                            </div>
+                            <div class="col-9">
+                                @(ShownGame.Rating)/10
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                Release date:
+                            </div>
+                            <div class="col-9">
+                                @ShownGame.ReleaseTime.ToShortDateString()
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                Playing since:
+                            </div>
+                            <div class="col-9">
+                                @ShownGame.ReleaseTime.ToShortDateString()
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                Tags:
+                            </div>
+                            <div class="col-9">
+                                @for (int i = 0; i < ShownGame.Tags.Count; i++)
+                                {
+                                    <span>@ShownGame.Tags[i]@(i < ShownGame.Tags.Count - 1 ? ", " : "")</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                Desc:
+                            </div>
+                            <div class="col-9">
+                                @ShownGame.Description
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary float-end">OK</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
 
 @code {
     List<GameDto> Games = new List<GameDto>();
+    public GameDto ShownGame; 
     
     public bool isEditing = false;
+    public bool isAdding = false;
 
     protected override async Task OnInitializedAsync()
     {
         Games = await HttpClient.GetFromJsonAsync<List<GameDto>>(NavigationManager.BaseUri + "api/games") ?? Games;
     } 
+
+    public void ChangeShownGame(string gameTitle)
+    {
+        ShownGame = Games.Find(g => g.Title == gameTitle);
+    }
+
+    public async void DeleteGame()
+    {
+        Console.WriteLine("click");
+        if(ShownGame is null)
+        {
+            return;
+        }
+        string id = ShownGame.Id.ToString();
+        var requestUri = new Uri(new Uri(NavigationManager.BaseUri), $"api/games/{id}");
+        using HttpResponseMessage response = await HttpClient.DeleteAsync(requestUri);
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Deleted successfully");
+            NavigationManager.Refresh();
+        }
+        else
+        {
+            Console.WriteLine("somethings wrong");
+            NavigationManager.Refresh();
+        }
+    }
 }

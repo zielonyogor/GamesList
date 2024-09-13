@@ -17,8 +17,9 @@ Content-Type: application/json
   "title": "Hollow Knight",
   "description": "Explore a vast interconnected world",
   "releaseTime": "2021-09-12T14:30:00",
+  "playingSinceTime": "2024-09-09T13:00:00",
   "rating": 5,
-  "imageUri": "https://example.com/hollow-knight.jpg",
+  "imageUri": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG0ir6kcdbR3ZfHZFZWb9nWHTRDIxQA2bfVGoPoufzEYbZvvLyQPh_OTYB5gqla6WjvinM",
   "tags": ["cozy", "indie", "platformer"]
 }
 

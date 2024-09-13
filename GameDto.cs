@@ -5,6 +5,8 @@ public class GameDto
 
     [Required]
     public string Title { get; set; } = "Game Title";
+    
+    [MaxLength(500)]
     public string? Description { get; set; }
     public DateTime ReleaseTime { get; set; }
 	public DateTime PlayingSinceTime { get; set; }
