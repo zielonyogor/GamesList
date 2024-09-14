@@ -10,8 +10,7 @@
             <button class="btn btn-outline-success" type="submit">Search</button>
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         </form>
-    <button class="btn btn-outline-success my-2" @onclick="@DeleteGame">Delete</button>
-    <button class="btn btn-outline-success my-2">Add</button>
+    <a href="addgame" class="btn btn-outline-success my-2" >Add</a>
     </div>
 </nav>
 
@@ -36,6 +35,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title h5">@ShownGame.Title</div>
+                        <button class="btn btn-outline-success my-2" @onclick="@DeleteGame">Delete</button>
                         <div class="row">
                             <div class="col-3">
                                 Rating:

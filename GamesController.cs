@@ -6,7 +6,7 @@ using GamesList.Models;
 
 namespace GamesList;
 
-[Route("api/games")]
+[Route("api")]
 [ApiController]
 public class GamesController : Controller
 {
@@ -17,7 +17,7 @@ public class GamesController : Controller
         _db = db;
     }
 
-    [HttpGet]
+    [HttpGet("games")]
     public async Task<ActionResult<List<GameDto>>> GetGames()
     {
         var games = await _db.Games
@@ -38,7 +38,18 @@ public class GamesController : Controller
         return games;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("tags")]
+    public async Task<ActionResult<List<string>>> GetTags()
+    {
+        //we only care about names right now so no need to make DTO
+        var tags = await _db.Tags
+            .Select(t => t.Name)
+            .ToListAsync();
+
+        return tags;
+    }
+
+    [HttpGet("games/{id}")]
     public async Task<ActionResult<GameDto>> GetGame(int id)
     {
         var game = await _db.Games
@@ -65,7 +76,7 @@ public class GamesController : Controller
         return gameDto;
     }
 
-    [HttpPost]
+    [HttpPost("games")]
     public async Task<ActionResult<Game>> CreateGame(GameDto gameDto)
     {
         var tags = await _db.Tags
@@ -102,7 +113,7 @@ public class GamesController : Controller
         return CreatedAtAction(nameof(GetGame), new { id = game.Id }, gameDto);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("games/{id}")]
     public async Task<ActionResult<Game>> UpdateGame(int id, GameDto gameDto)
     {
         if(id != gameDto.Id)
@@ -153,7 +164,7 @@ public class GamesController : Controller
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("games/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var game = await _db.Games

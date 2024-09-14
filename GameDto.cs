@@ -8,8 +8,8 @@ public class GameDto
     
     [MaxLength(500)]
     public string? Description { get; set; }
-    public DateTime ReleaseTime { get; set; }
-	public DateTime PlayingSinceTime { get; set; }
+    public DateOnly ReleaseTime { get; set; }
+	public DateOnly PlayingSinceTime { get; set; }
 
     [Range(1, 10)]
     public int? Rating { get; set; }

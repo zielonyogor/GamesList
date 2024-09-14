@@ -5,6 +5,11 @@ Accept: application/json
 
 ###
 
+GET {{GamesList_HostAddress}}/api/tags
+Accept: application/json
+
+###
+
 GET {{GamesList_HostAddress}}/api/games/1
 Accept: application/json
 
@@ -25,11 +30,11 @@ Content-Type: application/json
 
 ###
 
-PUT {{GamesList_HostAddress}}/api/games/3
+PUT {{GamesList_HostAddress}}/api/games/11
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 11,
   "title": "Oneshot",
   "description": "You only have one shot",
   "releaseTime": "2016-01-01T14:30:00",
@@ -40,6 +45,6 @@ Content-Type: application/json
 
 ###
 
-DELETE {{GamesList_HostAddress}}/api/games/2
+DELETE {{GamesList_HostAddress}}/api/games/3
 
 ###

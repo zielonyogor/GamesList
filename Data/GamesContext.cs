@@ -36,8 +36,8 @@ public class GameContext : DbContext
             Description = "Step into vast magical world of Adventure", 
             ImageUri = "https://variety.com/wp-content/uploads/2022/09/Genshin-Impact-Anime-Series-Concept.png", 
             Rating = 6, 
-            ReleaseTime = DateTime.Parse("Sep 28, 2020"),
-            PlayingSinceTime = DateTime.Parse("Mar 31, 2021")});
+            ReleaseTime = new DateOnly(2020, 9, 28),
+            PlayingSinceTime = new DateOnly(2021, 3, 31)});
         builder.Entity<Tag>().HasData(
             new Tag {Id = 1, Name = "RPG"},
             new Tag {Id = 2, Name = "cozy"}

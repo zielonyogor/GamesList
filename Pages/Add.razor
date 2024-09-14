@@ -1,0 +1,92 @@
+@page "/addgame"
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<div class="container">
+    <h4>Add your new game</h4>
+    <div class="card col-5">
+        <div class="card-body">
+            <div class="row">
+                    <div class="col-3">
+                        Image URL:
+                    </div>
+                    <div class="col-9">
+			            <InputText @bind-Value="newGame.ImageUri" />
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-3">
+                    Game Title
+                </div>
+                <div class="col-9">
+                    <InputText @bind-Value="newGame.Title" place />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    Release date:
+                </div>
+                <div class="col-9">
+                    <InputDate @bind-Value="newGame.ReleaseTime" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    Playing since:
+                </div>
+                <div class="col-9">
+			        <InputDate @bind-Value="newGame.PlayingSinceTime" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    Desc:
+                </div>
+                <div class="col-9">
+                    <InputTextArea @bind-Value="newGame.Description" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    Rating
+                </div>
+                <div class="col-9">
+			        <InputNumber @bind-Value="newGame.Rating" />    
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-outline-primary" @onclick="AddGame">Add game</button>
+    </div>
+    @if(message != String.Empty)
+    {
+        <h5 class="h5">@message</h5>
+    }
+</div>
+
+@code {
+
+    string message = String.Empty;
+    GameDto newGame = new GameDto{
+        ReleaseTime = DateOnly.FromDateTime(DateTime.Now),
+        PlayingSinceTime = DateOnly.FromDateTime(DateTime.Now)
+    };
+    List<string> tags = new List<string>();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        tags = await HttpClient.GetFromJsonAsync<List<string>>(NavigationManager.BaseUri + "api/tags") ?? tags;
+    }
+
+    public async Task AddGame()
+    {
+        var response = await HttpClient.PostAsJsonAsync(NavigationManager.BaseUri + "api/games", newGame);
+        if(response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            message = "Something went wrong, try again";
+        }
+    }
+}
