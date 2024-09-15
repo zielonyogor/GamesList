@@ -48,10 +48,26 @@
             </div>
             <div class="row">
                 <div class="col-3">
-                    Rating
+                    Rating:
                 </div>
                 <div class="col-9">
 			        <InputNumber @bind-Value="newGame.Rating" />    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    Tags:
+                </div>
+                <div class="col-9">
+			        <select class="form-select" multiple @onchange="UpdateTags">
+                        @if(tags is not null)
+                        {
+                            @foreach(var tag in tags)
+                            {
+                                <option value="@tag" selected="@newGame.Tags.Contains(tag)">@tag</option>
+                            }
+                        }
+                    </select>
                 </div>
             </div>
         </div>
@@ -75,6 +91,16 @@
     protected override async Task OnInitializedAsync()
     {
         tags = await HttpClient.GetFromJsonAsync<List<string>>(NavigationManager.BaseUri + "api/tags") ?? tags;
+    }
+
+    public void UpdateTags(ChangeEventArgs e)
+    {
+        var selectedValues = (e.Value as IEnumerable<string>)?.ToList();
+        
+        if(selectedValues is not null)
+        {
+            newGame.Tags = selectedValues;
+        }
     }
 
     public async Task AddGame()

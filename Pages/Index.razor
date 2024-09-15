@@ -36,6 +36,7 @@
                     <div class="card-body">
                         <div class="card-title h5">@ShownGame.Title</div>
                         <button class="btn btn-outline-success my-2" @onclick="@DeleteGame">Delete</button>
+                        <a href="edit/@ShownGame.Id" class="btn btn-outline-success">Edit</a>
                         <div class="row">
                             <div class="col-3">
                                 Rating:
@@ -91,9 +92,6 @@
 @code {
     List<GameDto> Games = new List<GameDto>();
     public GameDto ShownGame; 
-    
-    public bool isEditing = false;
-    public bool isAdding = false;
 
     protected override async Task OnInitializedAsync()
     {

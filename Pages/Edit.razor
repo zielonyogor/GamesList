@@ -1,0 +1,84 @@
+@page "/edit/{id:int}"
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<h4>Here you can edit your game</h4>
+<div class="container">
+    <h4>Add your new game</h4>
+    <div class="card col-5">
+        <div class="card-body">
+            <div class="row">
+                    <div class="col-3">
+                        Image URL:
+                    </div>
+                    <div class="col-9">
+			            <InputText @bind-Value="editedGame.ImageUri" />
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-3">
+                    Game Title
+                </div>
+                <div class="col-9">
+                    <InputText @bind-Value="editedGame.Title" place />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    Release date:
+                </div>
+                <div class="col-9">
+                    <InputDate @bind-Value="editedGame.ReleaseTime" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    Playing since:
+                </div>
+                <div class="col-9">
+			        <InputDate @bind-Value="editedGame.PlayingSinceTime" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    Desc:
+                </div>
+                <div class="col-9">
+                    <InputTextArea @bind-Value="editedGame.Description" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    Rating
+                </div>
+                <div class="col-9">
+			        <InputNumber @bind-Value="editedGame.Rating" />    
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-outline-primary" @onclick="EditGame">Add game</button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public int id { get; set; }
+    GameDto editedGame = new GameDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        editedGame = await HttpClient.GetFromJsonAsync<GameDto>($"{NavigationManager.BaseUri}api/games/{id}");
+    }
+
+    public async Task EditGame()
+    {
+        var response = await HttpClient.PutAsJsonAsync($"{NavigationManager.BaseUri}api/games/{id}", editedGame);
+        if(response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            Console.WriteLine("hmmmm");
+        }
+    }
+}
