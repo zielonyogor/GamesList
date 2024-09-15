@@ -4,74 +4,102 @@
 
 <div class="container">
     <h4>Add your new game</h4>
-    <div class="card col-5">
-        <div class="card-body">
-            <div class="row">
+    <div class="row">
+        <div class="card col-5 me-5" style="height: 70vh;">
+            <div class="card-body">
+                <div class="row my-3">
                     <div class="col-3">
-                        Image URL:
+                        Game Title
                     </div>
                     <div class="col-9">
-			            <InputText @bind-Value="newGame.ImageUri" />
+                        <InputText @bind-Value="newGame.Title" class="w-100" />
                     </div>
                 </div>
-            <div class="row">
-                <div class="col-3">
-                    Game Title
+                <div class="row my-3">
+                    <div class="col-3">
+                        Release date:
+                    </div>
+                    <div class="col-9">
+                        <InputDate @bind-Value="newGame.ReleaseTime" class="w-100 border-0" />
+                    </div>
                 </div>
-                <div class="col-9">
-                    <InputText @bind-Value="newGame.Title" place />
+                <div class="row my-3">
+                    <div class="col-3">
+                        Playing since:
+                    </div>
+                    <div class="col-9">
+                        <InputDate @bind-Value="newGame.PlayingSinceTime" class="w-100 border-0" />
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    Release date:
+                <div class="row my-3">
+                    <div class="col-3">
+                        Desc:
+                    </div>
+                    <div class="col-9">
+                        <InputTextArea @bind-Value="newGame.Description" class="w-100" style="resize: none; height: 100px" />
+                    </div>
                 </div>
-                <div class="col-9">
-                    <InputDate @bind-Value="newGame.ReleaseTime" />
+                <div class="row my-3">
+                    <div class="col-3">
+                        Rating:
+                    </div>
+                    <div class="col-9">
+                        <InputNumber @bind-Value="newGame.Rating" class="w-100" />    
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    Playing since:
-                </div>
-                <div class="col-9">
-			        <InputDate @bind-Value="newGame.PlayingSinceTime" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    Desc:
-                </div>
-                <div class="col-9">
-                    <InputTextArea @bind-Value="newGame.Description" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    Rating:
-                </div>
-                <div class="col-9">
-			        <InputNumber @bind-Value="newGame.Rating" />    
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    Tags:
-                </div>
-                <div class="col-9">
-			        <select class="form-select" multiple @onchange="UpdateTags">
-                        @if(tags is not null)
-                        {
-                            @foreach(var tag in tags)
+                <div class="row my-3">
+                    <div class="col-3">
+                        Tags:
+                    </div>
+                    <div class="col-9 align-items-start d-flex">
+                        <span class="d-block col-10 h-100" >
+                            @for (int i = 0; i < newGame.Tags.Count; i++)
                             {
-                                <option value="@tag" selected="@newGame.Tags.Contains(tag)">@tag</option>
+                                @newGame.Tags[i]@(i < newGame.Tags.Count - 1 ? ", " : "")
                             }
-                        }
-                    </select>
+                        </span>
+                    </div>
                 </div>
+            </div>
+            <button class="btn btn-outline-primary" @onclick="AddGame">Add game</button>
+        </div>
+        <div class="col">
+            <div class="card" style="width: calc(200px + 8rem); height: calc(200px + 6rem);">
+                <div class="row my-3 px-3">
+                        <div class="col-4">
+                            Image URL:
+                        </div>
+                        <div class="col-8">
+                            <InputText @bind-Value="newGame.ImageUri" class="w-100" />
+                        </div>
+                </div>
+                @if(false)
+                {
+
+                }
+                else
+                {
+                    <span class="align-self-center h6">Enter a valid photo URL</span>
+                }
+            </div>
+            <div class="card mt-5" style="width: calc(160px + 5rem);">
+                <div class="card-title m-1">Choose your tags:</div>
+                @foreach(var tag in tags)
+                {
+                    <div class="justify-content-evenly">
+                        <div class="dropdown-item d-flex">
+                            <a class="flex-grow-1 dropdown-item" @onclick="@(e => AddTag(@tag))">@tag</a> 
+                            @if(newGame.Tags.Contains(tag))
+                            {
+                                <a class="btn btn-danger" @onclick="@(e => DeleteTag(@tag))">X</a>
+                            }
+                        </div>
+                    </div>
+                }
+                <input class="border-0 border-top px-3 py-2" type="text" placeholder="or add new tag..." @bind="newTag" @onkeyup="OnKeyPressed">
             </div>
         </div>
-        <button class="btn btn-outline-primary" @onclick="AddGame">Add game</button>
+
     </div>
     @if(message != String.Empty)
     {
@@ -87,20 +115,14 @@
         PlayingSinceTime = DateOnly.FromDateTime(DateTime.Now)
     };
     List<string> tags = new List<string>();
+    List<string> originalTagList;
+
+    string newTag;
     
     protected override async Task OnInitializedAsync()
     {
         tags = await HttpClient.GetFromJsonAsync<List<string>>(NavigationManager.BaseUri + "api/tags") ?? tags;
-    }
-
-    public void UpdateTags(ChangeEventArgs e)
-    {
-        var selectedValues = (e.Value as IEnumerable<string>)?.ToList();
-        
-        if(selectedValues is not null)
-        {
-            newGame.Tags = selectedValues;
-        }
+        originalTagList = new List<string>(tags);
     }
 
     public async Task AddGame()
@@ -114,5 +136,44 @@
         {
             message = "Something went wrong, try again";
         }
+    }
+
+    public void AddTag(string name)
+    {
+        if(!newGame.Tags.Contains(name) && name is not "")
+        {
+            newGame.Tags.Add(name); 
+            StateHasChanged();
+            if(!tags.Contains(name))
+            {
+                tags.Add(name);
+            }
+        }
+    }
+
+    public void OnKeyPressed(KeyboardEventArgs e)
+    {
+        if(e.Key == "Enter")
+        {
+            string tempString = newTag;
+            AddTag(tempString);
+            newTag = "";
+            StateHasChanged();
+        }
+    }
+
+    public void DeleteTag(string name)
+    {
+        newGame.Tags.Remove(name);
+        foreach(var i in originalTagList)
+        {
+            Console.WriteLine(i);
+        }
+        if(!originalTagList.Contains(name))
+        {
+            Console.WriteLine("Deleting " + name);
+            tags.Remove(name);
+        }
+        //StateHasChanged();
     }
 }
