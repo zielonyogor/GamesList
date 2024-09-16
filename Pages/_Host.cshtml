@@ -14,11 +14,82 @@
     <base href="/" />
     <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
     <title>MyGamesList</title>
 </head>
 
 <body>
     <component type="typeof(App)" render-mode="ServerPrerendered" />
+
+    <div id="components-reconnect-modal" class="my-reconnect-modal components-reconnect-hide">
+        <div class="show">
+            <p>
+                Attempting to reconnect to the server...
+            </p>
+        </div>
+        <div class="failed">
+            <p>
+                Failed to reconect to the server :( 
+            </p>
+            <p>
+                Try reloading the page.
+            </p>
+        </div>
+        <div class="rejected">
+            <p>
+                Server rejected :(
+            </p>
+        </div>
+    </div>
+
+    <style>
+        .my-reconnect-modal > div{
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            overflow: hidden;
+            background-color: #6A6B83;
+            opacity: 0.8;
+            text-align: center;
+            font-weight: bold;
+        }
+        .components-reconnect-hide > div
+        {
+            display: none;
+        }
+
+        .components-reconnect-show > div
+        {
+            display: none;
+        }
+        .components-reconnect-show > .show
+        {
+            display: block;
+        }
+
+        .components-reconnect-failed > div
+        {
+            display: none;
+        }
+        .components-reconnect-failed > .failed
+        {
+            display: block;
+        }
+
+        .components-reconnect-rejected >div
+        {
+            display: none;
+        }
+        .components-reconnect-rejected > .rejected
+        {
+            display: block;
+        }
+    </style>
 
     <script src="lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="_framework/blazor.server.js"></script>

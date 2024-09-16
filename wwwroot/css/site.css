@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  font-family: 'Tiny5', sans-serif;
   background-color: #533747;
   color: #F5F5F5;
 }
@@ -20,4 +20,30 @@ body {
   background-color: #533747;
   border: #6A6B83 solid 6px;
   border-radius: 0;
+}
+
+.h2, .h2:hover {
+  color: #86BBBD;
+}
+
+a {
+  text-decoration: none;
+}
+
+.btn {
+  border-radius: 0;
+}
+
+.form-control {
+  border-radius: 0;
+}
+
+.input-field, input {
+  background: #533747;
+  border: 0;
+  color: #F5F5F5;
+}
+
+.input-field:focus {
+  border: 0;
 }

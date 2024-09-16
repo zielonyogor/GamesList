@@ -5,7 +5,7 @@
 
 <nav class="navbar bg-body-tertiary">
      <div class="container-fluid align-items-center">
-        <h4 class="h4 ms-2">MY GAMES LIST</h4>
+        <a class="h2 ms-2 pixel-text" href="/">MY GAMES LIST</a>
         <form class="d-flex" role="search">
             <button class="btn btn-outline-success" type="submit">Search</button>
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -21,9 +21,9 @@
             @foreach(var game in Games)
             {
                 <div class="card my-4">
-                    <div class="card-body">
+                    <div class="card-body justify-content-between align-self-stretch">
                         <img src="@game.ImageUri" class="rounded" width="100px" height="100px">
-                        <span class="h5">@game.Title</span>
+                        <span class="h3 ms-2">@game.Title</span>
                         <button class="btn btn-outline-dark float-end" @onclick="@(e => ChangeShownGame(@game.Title))">Details</button>
                     </div>
                 </div>
