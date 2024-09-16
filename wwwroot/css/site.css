@@ -12,6 +12,12 @@ html {
 
 body {
   margin-bottom: 60px;
-  /* background-color: #533747;
-  color: #F5F5F5; */
+  background-color: #533747;
+  color: #F5F5F5;
+}
+
+.card {
+  background-color: #533747;
+  border: #6A6B83 solid 6px;
+  border-radius: 0;
 }

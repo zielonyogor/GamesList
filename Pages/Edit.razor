@@ -5,58 +5,102 @@
 <h4>Here you can edit your game</h4>
 <div class="container">
     <h4>Add your new game</h4>
-    <div class="card col-5">
-        <div class="card-body">
-            <div class="row">
+    <div class="row">
+        <div class="card col-5 me-5" style="height: 70vh;">
+            <div class="card-body">
+                <div class="row my-3">
                     <div class="col-3">
-                        Image URL:
+                        Game Title
                     </div>
                     <div class="col-9">
-			            <InputText @bind-Value="editedGame.ImageUri" />
+                        <InputText @bind-Value="editedGame.Title" class="w-100" />
                     </div>
                 </div>
-            <div class="row">
-                <div class="col-3">
-                    Game Title
+                <div class="row my-3">
+                    <div class="col-3">
+                        Release date:
+                    </div>
+                    <div class="col-9">
+                        <InputDate @bind-Value="editedGame.ReleaseTime" class="w-100 border-0" />
+                    </div>
                 </div>
-                <div class="col-9">
-                    <InputText @bind-Value="editedGame.Title" place />
+                <div class="row my-3">
+                    <div class="col-3">
+                        Playing since:
+                    </div>
+                    <div class="col-9">
+                        <InputDate @bind-Value="editedGame.PlayingSinceTime" class="w-100 border-0" />
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-3">
+                        Desc:
+                    </div>
+                    <div class="col-9">
+                        <InputTextArea @bind-Value="editedGame.Description" class="w-100" style="resize: none; height: 100px" />
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-3">
+                        Rating:
+                    </div>
+                    <div class="col-9">
+                        <InputNumber @bind-Value="editedGame.Rating" class="w-100" />    
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-3">
+                        Tags:
+                    </div>
+                    <div class="col-9 align-items-start d-flex">
+                        <span class="d-block col-10 h-100" >
+                            @for (int i = 0; i < editedGame.Tags.Count; i++)
+                            {
+                                @editedGame.Tags[i]@(i < editedGame.Tags.Count - 1 ? ", " : "")
+                            }
+                        </span>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-3">
-                    Release date:
+            <button class="btn btn-outline-primary" @onclick="SaveGame">Save Changes</button>
+        </div>
+        <div class="col">
+            <div class="card" style="width: calc(200px + 8rem); height: calc(200px + 6rem);">
+                <div class="row my-3 px-3">
+                        <div class="col-4">
+                            Image URL:
+                        </div>
+                        <div class="col-8">
+                            <InputText @bind-Value="editedGame.ImageUri" class="w-100" />
+                        </div>
                 </div>
-                <div class="col-9">
-                    <InputDate @bind-Value="editedGame.ReleaseTime" />
-                </div>
+                @if(false)
+                {
+
+                }
+                else
+                {
+                    <span class="align-self-center h6">Enter a valid photo URL</span>
+                }
             </div>
-            <div class="row">
-                <div class="col-3">
-                    Playing since:
-                </div>
-                <div class="col-9">
-			        <InputDate @bind-Value="editedGame.PlayingSinceTime" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    Desc:
-                </div>
-                <div class="col-9">
-                    <InputTextArea @bind-Value="editedGame.Description" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    Rating
-                </div>
-                <div class="col-9">
-			        <InputNumber @bind-Value="editedGame.Rating" />    
-                </div>
+            <div class="card mt-5" style="width: calc(160px + 5rem);">
+                <div class="card-title m-1">Choose your tags:</div>
+                @foreach(var tag in tags)
+                {
+                    <div class="justify-content-evenly">
+                        <div class="dropdown-item d-flex">
+                            <a class="flex-grow-1 dropdown-item" @onclick="@(e => AddTag(@tag))">@tag</a> 
+                            @if(editedGame.Tags.Contains(tag))
+                            {
+                                <a class="btn btn-danger" @onclick="@(e => DeleteTag(@tag))">X</a>
+                            }
+                        </div>
+                    </div>
+                }
+                <input class="border-0 border-top px-3 py-2" type="text" placeholder="or add new tag..." @bind="newTag" @onkeyup="OnKeyPressed">
             </div>
         </div>
-        <button class="btn btn-outline-primary" @onclick="EditGame">Add game</button>
+
     </div>
 </div>
 
@@ -64,12 +108,19 @@
     [Parameter] public int id { get; set; }
     GameDto editedGame = new GameDto();
 
+    List<string> tags = new List<string>();
+    List<string> originalTagList;
+
+    string newTag;
+
     protected override async Task OnInitializedAsync()
     {
         editedGame = await HttpClient.GetFromJsonAsync<GameDto>($"{NavigationManager.BaseUri}api/games/{id}");
+        tags = await HttpClient.GetFromJsonAsync<List<string>>(NavigationManager.BaseUri + "api/tags") ?? tags;
+        originalTagList = new List<string>(tags);
     }
 
-    public async Task EditGame()
+    public async Task SaveGame()
     {
         var response = await HttpClient.PutAsJsonAsync($"{NavigationManager.BaseUri}api/games/{id}", editedGame);
         if(response.IsSuccessStatusCode)
@@ -79,6 +130,44 @@
         else
         {
             Console.WriteLine("hmmmm");
+        }
+    }
+
+    public void AddTag(string name)
+    {
+        if(!editedGame.Tags.Contains(name) && name is not "")
+        {
+            editedGame.Tags.Add(name); 
+            StateHasChanged();
+            if(!tags.Contains(name))
+            {
+                tags.Add(name);
+            }
+        }
+    }
+
+    public void OnKeyPressed(KeyboardEventArgs e)
+    {
+        if(e.Key == "Enter")
+        {
+            string tempString = newTag;
+            AddTag(tempString);
+            newTag = "";
+            StateHasChanged();
+        }
+    }
+
+    public void DeleteTag(string name)
+    {
+        editedGame.Tags.Remove(name);
+        foreach(var i in originalTagList)
+        {
+            Console.WriteLine(i);
+        }
+        if(!originalTagList.Contains(name))
+        {
+            Console.WriteLine("Deleting " + name);
+            tags.Remove(name);
         }
     }
 }
