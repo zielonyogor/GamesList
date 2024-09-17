@@ -4,28 +4,27 @@
 @using GamesList
 
 <nav class="navbar bg-body-tertiary">
-     <div class="container-fluid align-items-center">
+     <div class="container-fluid align-items-stretch p-0">
         <a class="h2 ms-2 pixel-text" href="/">MY GAMES LIST</a>
         <form class="d-flex" role="search">
             <button class="btn btn-outline-success" type="submit">Search</button>
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         </form>
-    <a href="addgame" class="btn btn-outline-success my-2" >Add</a>
+        <a href="addgame" class="btn btn-outline-success" >Add</a>
     </div>
 </nav>
 
 
 <div class="main grid m-3">
     <div class="row">
-        <div class="col-4">
+        <div class="col-4 ms-5">
             @foreach(var game in Games)
             {
                 <div class="card my-4">
-                    <div class="card-body justify-content-between align-self-stretch">
-                        <img src="@game.ImageUri" class="rounded" width="100px" height="100px">
-                        <span class="h3 ms-2">@game.Title</span>
-                        <button class="btn btn-outline-dark float-end" @onclick="@(e => ChangeShownGame(@game.Title))">Details</button>
-                    </div>
+                    <button class="game-card-button p-0 d-flex align-items-center text-start" @onclick="@(e => ChangeShownGame(@game.Title))">
+                        <img src="@game.ImageUri" width="100px" height="100px">
+                        <span class="h3 ms-4">@game.Title</span>
+                    </button>
                 </div>
             }
         </div>
@@ -33,50 +32,53 @@
             @if(ShownGame is not null)
             {
                 <div class="card">
+                    <div class="card-title h3 d-flex">
+                        <span class="flex-grow-1 m-2">@ShownGame.Title</span>
+                        @* change to icons here *@
+                        <button class="btn btn-outline-success align-self-stretch px-4" @onclick="@DeleteGame">X</button>
+                        <a href="edit/@ShownGame.Id" class="btn btn-outline-success px-4">I</a>
+                    </div>
                     <div class="card-body">
-                        <div class="card-title h5">@ShownGame.Title</div>
-                        <button class="btn btn-outline-success my-2" @onclick="@DeleteGame">Delete</button>
-                        <a href="edit/@ShownGame.Id" class="btn btn-outline-success">Edit</a>
-                        <div class="row">
-                            <div class="col-3">
+                        <div class="row my-3">
+                            <div class="col-3 data-label">
                                 Rating:
                             </div>
-                            <div class="col-9">
+                            <div class="col-9 fs-5">
                                 @(ShownGame.Rating)/10
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-3">
+                        <div class="row my-3">
+                            <div class="col-3 data-label">
                                 Release date:
                             </div>
-                            <div class="col-9">
+                            <div class="col-9 fs-5">
                                 @ShownGame.ReleaseTime.ToShortDateString()
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-3">
+                        <div class="row my-3">
+                            <div class="col-3 data-label">
                                 Playing since:
                             </div>
-                            <div class="col-9">
+                            <div class="col-9 fs-5">
                                 @ShownGame.ReleaseTime.ToShortDateString()
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-3">
+                        <div class="row my-3">
+                            <div class="col-3 data-label">
                                 Tags:
                             </div>
-                            <div class="col-9">
+                            <div class="col-9 fs-5">
                                 @for (int i = 0; i < ShownGame.Tags.Count; i++)
                                 {
                                     <span>@ShownGame.Tags[i]@(i < ShownGame.Tags.Count - 1 ? ", " : "")</span>
                                 }
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-3">
+                        <div class="row my-3">
+                            <div class="col-3 data-label">
                                 Desc:
                             </div>
-                            <div class="col-9">
+                            <div class="col-9 fs-5">
                                 @ShownGame.Description
                             </div>
                         </div>

@@ -3,63 +3,65 @@
 @inject NavigationManager NavigationManager
 
 <nav class="navbar bg-body-tertiary">
-    <div class="container-fluid align-items-center">
+     <div class="container-fluid align-items-stretch p-0">
         <a class="h2 ms-2 pixel-text" href="/">MY GAMES LIST</a>
-        <a href="addgame" class="btn btn-outline-success my-2" >Add</a>
+        <a href="addgame" class="btn btn-outline-success" >Add</a>
     </div>
 </nav>
 
-<div class="container">
-    <h4>Edit your game</h4>
+<div class="container p-4">
     <div class="row">
-        <div class="card col-5 me-5" style="height: 70vh;">
+        <div class="card col-5 me-5 p-0" style="height: 80vh;">
+            <div class="card-title h3 d-flex">
+                <span class="flex-grow-1 m-2">Edit your game</span>
+            </div>
             <div class="card-body">
-                <div class="row my-3">
-                    <div class="col-3">
+                <div class="row">
+                    <div class="col-3 data-label">
                         Game Title
                     </div>
-                    <div class="col-9">
+                    <div class="col-9 fs-5">
                         <InputText @bind-Value="editedGame.Title" class="w-100 input-field" />
                     </div>
                 </div>
                 <div class="row my-3">
-                    <div class="col-3">
+                    <div class="col-3 data-label">
                         Release date:
                     </div>
-                    <div class="col-9">
+                    <div class="col-9 fs-5">
                         <InputDate @bind-Value="editedGame.ReleaseTime" class="w-100 input-field border-0" />
                     </div>
                 </div>
                 <div class="row my-3">
-                    <div class="col-3">
+                    <div class="col-3 data-label">
                         Playing since:
                     </div>
-                    <div class="col-9">
+                    <div class="col-9 fs-5">
                         <InputDate @bind-Value="editedGame.PlayingSinceTime" class="w-100 input-field border-0" />
                     </div>
                 </div>
                 <div class="row my-3">
-                    <div class="col-3">
+                    <div class="col-3 data-label">
                         Desc:
                     </div>
-                    <div class="col-9">
+                    <div class="col-9 fs-5">
                         <InputTextArea @bind-Value="editedGame.Description" class="w-100 input-field" style="resize: none; height: 100px" />
                     </div>
                 </div>
                 <div class="row my-3">
-                    <div class="col-3">
+                    <div class="col-3 data-label">
                         Rating:
                     </div>
-                    <div class="col-9">
+                    <div class="col-9 fs-5">
                         <InputNumber @bind-Value="editedGame.Rating" class="w-100 input-field" />    
                     </div>
                 </div>
                 <div class="row my-3">
-                    <div class="col-3">
+                    <div class="col-3 data-label">
                         Tags:
                     </div>
                     <div class="col-9 align-items-start d-flex">
-                        <span class="d-block col-10 h-100" >
+                        <span class="d-block col-10 h-100  fs-5" >
                             @for (int i = 0; i < editedGame.Tags.Count; i++)
                             {
                                 @editedGame.Tags[i]@(i < editedGame.Tags.Count - 1 ? ", " : "")
@@ -90,12 +92,12 @@
                 }
             </div>
             <div class="card mt-5" style="width: calc(160px + 5rem);">
-                <div class="card-title m-1">Choose your tags:</div>
+                <div class="card-title px-2 py-2 m-0">Choose your tags:</div>
                 @foreach(var tag in tags)
                 {
                     <div class="justify-content-evenly">
-                        <div class="dropdown-item d-flex">
-                            <a class="flex-grow-1 dropdown-item" @onclick="@(e => AddTag(@tag))">@tag</a> 
+                        <div class="d-flex">
+                            <a class="flex-grow-1 dropdown-item py-2" @onclick="@(e => AddTag(@tag))">@tag</a> 
                             @if(editedGame.Tags.Contains(tag))
                             {
                                 <a class="btn btn-danger" @onclick="@(e => DeleteTag(@tag))">X</a>
@@ -103,7 +105,7 @@
                         </div>
                     </div>
                 }
-                <input class="border-0 border-top px-3 py-2" type="text" placeholder="or add new tag..." @bind="newTag" @onkeyup="OnKeyPressed">
+                <input class="border-0 px-3 py-2 tag-add-input" type="text" placeholder="or add new tag..." @bind="newTag" @onkeyup="OnKeyPressed">
             </div>
         </div>
 

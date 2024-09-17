@@ -30,10 +30,6 @@ a {
   text-decoration: none;
 }
 
-.btn {
-  border-radius: 0;
-}
-
 .form-control {
   border-radius: 0;
 }
@@ -44,6 +40,68 @@ a {
   color: #F5F5F5;
 }
 
-.input-field:focus {
-  border: 0;
+.input-field:focus, input {
+  outline: none;
+  background: #6A6B83;
+}
+
+.card-title {
+  border-bottom: #6A6B83 solid 6px;
+  background: #5F506B;
+  color: #86BBBD;
+}
+
+.btn {
+  border-radius: 0;
+}
+
+.btn-outline-success, .btn-outline-success:hover {
+  border-left: solid 6px #6A6B83;
+  border-right: 0;
+  border-bottom: 0;
+  border-top: 0;
+  color: #86BBBD;
+}
+
+.btn-outline-success:hover {
+  background: #6A6B83;
+}
+
+::placeholder {
+  color:#533747;
+  font-size: 1.1rem;
+}
+
+.tag-add-input {
+  color: #F5F5F5;
+}
+
+.dropdown-item {
+  color: #86BBBD;
+}
+
+.dropdown-item:hover {
+  background: #6A6B83;
+  color: #F5F5F5;
+}
+
+.game-card-button {
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+    color: #F5F5F5;
+}
+
+.game-card-button img {
+  border-right: solid 6px #6A6B83;
+}
+
+.data-label {
+  color: #6A6B83;
+}
+
+.navbar {
+  border-bottom: solid 6px #6A6B83;
+  padding: 0;
 }
