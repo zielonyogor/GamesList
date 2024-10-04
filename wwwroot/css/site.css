@@ -22,7 +22,7 @@ body {
   border-radius: 0;
 }
 
-.h2, .h2:hover {
+.h1, .h1:hover {
   color: #86BBBD;
 }
 
@@ -63,7 +63,26 @@ a {
   color: #86BBBD;
 }
 
-.btn-outline-success:hover {
+.btn-outline-success:hover, .h1:hover {
+  background: #6A6B83;
+}
+
+.btn-outline-success:focus {
+  box-shadow: none;
+}
+
+.btn-save {
+  color: #86BBBD;
+  background: #5F506B;
+  padding: 0.6em 0;
+  border-top: solid 6px #6A6B83;
+}
+
+.btn-save:hover {
+  color: #76949F;
+}
+
+.btn-save:active {
   background: #6A6B83;
 }
 
@@ -104,4 +123,25 @@ a {
 .navbar {
   border-bottom: solid 6px #6A6B83;
   padding: 0;
+}
+
+.navbar > div > * {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+.search-bar {
+  border-left: solid 6px #6A6B83;
+  color: #86BBBD;
+  font-size: calc(1.275rem + 0.3vw);
+}
+
+.search-bar::placeholder {
+  
+  font-size: calc(1.275rem + 0.3vw);
+}
+
+.image-placeholder {
+  padding: 0.5em;
+  background: #5F506B;
 }

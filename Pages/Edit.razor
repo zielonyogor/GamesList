@@ -4,8 +4,9 @@
 
 <nav class="navbar bg-body-tertiary">
      <div class="container-fluid align-items-stretch p-0">
-        <a class="h2 ms-2 pixel-text" href="/">MY GAMES LIST</a>
-        <a href="addgame" class="btn btn-outline-success" >Add</a>
+        <a class="h1 mb-0 px-3 align-content-center" href="/">MY GAMES LIST</a>
+        <div class="search-bar flex-grow-1"></div>
+        <a href="addgame" class="btn btn-outline-success align-content-center" >Add</a>
     </div>
 </nav>
 
@@ -70,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-outline-primary" @onclick="SaveGame">Save Changes</button>
+            <button class="btn btn-save" @onclick="SaveGame">SAVE</button>
         </div>
         <div class="col">
             <div class="card" style="width: calc(200px + 8rem); height: calc(200px + 6rem);">

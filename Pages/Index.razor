@@ -5,24 +5,25 @@
 
 <nav class="navbar bg-body-tertiary">
      <div class="container-fluid align-items-stretch p-0">
-        <a class="h2 ms-2 pixel-text" href="/">MY GAMES LIST</a>
-        <form class="d-flex" role="search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        </form>
-        <a href="addgame" class="btn btn-outline-success" >Add</a>
+        <a class="h1 mb-0 px-3 align-content-center" href="/">MY GAMES LIST</a>
+        <input class="search-bar flex-grow-1" placeholder="search name or tag..." aria-label="Search" @oninput="ShowGames" >
+        <a href="addgame" class="btn btn-outline-success align-content-center" >Add</a>
     </div>
 </nav>
-
 
 <div class="main grid m-3">
     <div class="row">
         <div class="col-4 ms-5">
-            @foreach(var game in Games)
+            @foreach(var game in ShownGames)
             {
                 <div class="card my-4">
                     <button class="game-card-button p-0 d-flex align-items-center text-start" @onclick="@(e => ChangeShownGame(@game.Title))">
-                        <img src="@game.ImageUri" width="100px" height="100px">
+                        @if (@game.ImageUri == null) {
+                            <img class="image-placeholder" src="img_placeholder.svg" width="100px" height="100px">
+                        }
+                        else {
+                            <img src="@game.ImageUri" width="100px" height="100px">
+                        }
                         <span class="h3 ms-4">@game.Title</span>
                     </button>
                 </div>
@@ -36,7 +37,7 @@
                         <span class="flex-grow-1 m-2">@ShownGame.Title</span>
                         @* change to icons here *@
                         <button class="btn btn-outline-success align-self-stretch px-4" @onclick="@DeleteGame">X</button>
-                        <a href="edit/@ShownGame.Id" class="btn btn-outline-success px-4">I</a>
+                        <a href="edit/@ShownGame.Id" class="btn btn-outline-success align-content-center px-4">I</a>
                     </div>
                     <div class="card-body">
                         <div class="row my-3">
@@ -82,8 +83,6 @@
                                 @ShownGame.Description
                             </div>
                         </div>
-
-                        <button class="btn btn-primary float-end">OK</button>
                     </div>
                 </div>
             }
@@ -93,12 +92,23 @@
 
 @code {
     List<GameDto> Games = new List<GameDto>();
+    List<GameDto> ShownGames = new List<GameDto>();
     public GameDto ShownGame; 
 
     protected override async Task OnInitializedAsync()
     {
         Games = await HttpClient.GetFromJsonAsync<List<GameDto>>(NavigationManager.BaseUri + "api/games") ?? Games;
+        ShownGames = new List<GameDto>(Games);
     } 
+
+    public void ShowGames(ChangeEventArgs e)
+    {
+        var searchQuery = e.Value.ToString();
+        ShownGames = Games
+            .Where(game => game.Title.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                        game.Tags.Any(tag => tag.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)))
+            .ToList();
+    }
 
     public void ChangeShownGame(string gameTitle)
     {
