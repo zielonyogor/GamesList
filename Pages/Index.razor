@@ -32,9 +32,9 @@
                 <div class="card-info">
                     <div class="card-info-bar">
                         <h3>@ShownGame.Title</h3>
-                        <a class="icon" @onclick="@DeleteGame"><i class="fa-solid fa-trash"></i></a>
+                        <button class="icon icon-btn" @onclick="@DeleteGame"><i class="fa-solid fa-trash"></i></button>
                         <a href="edit/@ShownGame.Id" class="icon"><i class="fa-solid fa-pen"></i></a>
-                        <a class="icon" @onclick="@CloseShownGame"><i class="fa-solid fa-xmark fa-lg"></i></a>
+                        <button class="icon icon-btn" @onclick="@CloseShownGame"><i class="fa-solid fa-xmark fa-lg"></i></button>
                     </div>
                     <div class="card-info-body">
                         <div class="row card-info-row">
@@ -42,7 +42,34 @@
                                 Rating:
                             </div>
                             <div class="col-auto">
-                                @(ShownGame.Rating is not null ? ShownGame.Rating : "?")/10
+                                @if(ShownGame.Rating is null)
+                                {
+                                    <span>not yet rated</span>
+                                }
+                                else
+                                {
+                                    @for(int i = 1; i <= 5; i++)
+                                    {
+                                        @if(rating > 1)
+                                        {
+                                            <svg width="30px" height="30px">
+                                                <use href="stars.svg#icon-star" fill="#86BBBD" />
+                                            </svg>
+                                        }
+                                        else if(rating == 1)
+                                        {
+                                            <svg width="30px" height="30px">
+                                                <use href="stars.svg#icon-star-half" />
+                                            </svg>
+                                        }
+                                        else{
+                                            <svg width="30px" height="30px">
+                                                <use href="stars.svg#icon-star" fill="#76949F" />
+                                            </svg>
+                                        }
+                                        rating -= 2;
+                                    }
+                                }
                             </div>
                         </div>
                         <div class="row card-info-row">
@@ -92,6 +119,8 @@
     List<GameDto> ShownGames = new List<GameDto>();
     public GameDto ShownGame; 
 
+    public int? rating;
+
     protected override async Task OnInitializedAsync()
     {
         Games = await HttpClient.GetFromJsonAsync<List<GameDto>>(NavigationManager.BaseUri + "api/games") ?? Games;
@@ -110,6 +139,7 @@
     public void ChangeShownGame(string gameTitle)
     {
         ShownGame = Games.Find(g => g.Title == gameTitle);
+        rating = ShownGame.Rating;
     }
 
     public void CloseShownGame()
