@@ -2,120 +2,115 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-<nav class="navbar bg-body-tertiary">
-     <div class="container-fluid align-items-stretch p-0">
-        <a class="h1 mb-0 px-3 align-content-center" href="/">MY GAMES LIST</a>
-        <div class="search-bar flex-grow-1"></div>
-        <a href="addgame" class="btn btn-outline-success align-content-center" >Add</a>
-    </div>
+<nav>
+    <a href="/" class="title">MY GAMES LIST</a>
+    <a href="addgame" class="icon"><i class="fa-solid fa-plus fa-sm"></i></a>
 </nav>
 
-<div class="container p-4">
+<main>
     <div class="row">
-        <div class="card col-5 me-5 p-0" style="height: 80vh;">
-            <div class="card-title h3 d-flex">
-                <span class="flex-grow-1 m-2">Add your new game</span>
+        <div class="col-4">
+            <div class="card-info">
+                    <div class="card-info-bar">
+                        <h3>Add your new game</h3>
+                    </div>
+                    <div class="card-info-body">
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Title:
+                            </div>
+                            <div class="col-auto">
+                                <InputText @bind-Value="newGame.Title" class="game-input" />
+                            </div>
+                        </div>
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Rating:
+                            </div>
+                            <div class="col-auto">
+                                <InputNumber @bind-Value="newGame.Rating" class="game-input" />
+                            </div>
+                        </div>
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Release Date:
+                            </div>
+                            <div class="col-auto">
+                                <InputDate @bind-Value="newGame.ReleaseTime" class="game-input" />
+                            </div>
+                        </div>
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Playing Since:
+                            </div>
+                            <div class="col-auto">
+                                <InputDate @bind-Value="newGame.PlayingSinceTime" class="game-input" />
+                            </div>
+                        </div>
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Tags:
+                            </div>
+                            <div class="col-auto">
+                                <span>
+                                    @for (int i = 0; i < newGame.Tags.Count; i++)
+                                    {
+                                        @newGame.Tags[i]@(i < newGame.Tags.Count - 1 ? ", " : "")
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Desc:
+                            </div>
+                            <div class="col-auto">
+                                <InputTextArea @bind-Value="newGame.Description" class="game-input" placeholder="describe your game here"/>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-confirm" @onclick="AddGame">Add game</button>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-3 data-label">
-                        Game Title
-                    </div>
-                    <div class="col-9 fs-5">
-                        <InputText @bind-Value="newGame.Title" class="w-100 input-field" />
-                    </div>
-                </div>
-                <div class="row my-3">
-                    <div class="col-3 data-label">
-                        Release date:
-                    </div>
-                    <div class="col-9 fs-5">
-                        <InputDate @bind-Value="newGame.ReleaseTime" class="w-100 input-field border-0" />
-                    </div>
-                </div>
-                <div class="row my-3">
-                    <div class="col-3 data-label">
-                        Playing since:
-                    </div>
-                    <div class="col-9 fs-5">
-                        <InputDate @bind-Value="newGame.PlayingSinceTime" class="w-100 input-field border-0" />
-                    </div>
-                </div>
-                <div class="row my-3">
-                    <div class="col-3 data-label">
-                        Desc:
-                    </div>
-                    <div class="col-9 fs-5">
-                        <InputTextArea @bind-Value="newGame.Description" class="w-100 input-field" style="resize: none; height: 100px" />
-                    </div>
-                </div>
-                <div class="row my-3">
-                    <div class="col-3 data-label">
-                        Rating:
-                    </div>
-                    <div class="col-9 fs-5">
-                        <InputNumber @bind-Value="newGame.Rating" class="w-100 input-field" />    
-                    </div>
-                </div>
-                <div class="row my-3">
-                    <div class="col-3 data-label">
-                        Tags:
-                    </div>
-                    <div class="col-9 align-items-start d-flex fs-5">
-                        <span class="d-block col-10 h-100  fs-5" >
-                            @for (int i = 0; i < newGame.Tags.Count; i++)
-                            {
-                                @newGame.Tags[i]@(i < newGame.Tags.Count - 1 ? ", " : "")
-                            }
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-save" @onclick="AddGame">ADD</button>
         </div>
-        <div class="col">
-            <div class="card" style="width: calc(200px + 8rem); height: calc(200px + 6rem);">
-                <div class="row my-3 px-3">
-                        <div class="col-4">
-                            Image URL:
-                        </div>
-                        <div class="col-8">
-                            <InputText @bind-Value="newGame.ImageUri" class="w-100 input-field" />
-                        </div>
+        <div class="col-3 helper-window">
+            <div class="card-info">
+                <div class="card-info-bar mb-0">
+                      <h4>Image URL</h4>
                 </div>
-                @if(false)
-                {
+                <InputText class="url-input" @bind-Value="newGame.ImageUri" placeholder="enter your url here" />
 
-                }
-                else
-                {
-                    <span class="align-self-center h6">Enter a valid photo URL</span>
-                }
+                <img class="image-preview" src="@newGame.ImageUri">
             </div>
-            <div class="card mt-5" style="width: calc(160px + 5rem);">
-                <div class="card-title px-2 py-2 m-0">Choose your tags:</div>
-                @foreach(var tag in tags)
-                {
-                    <div class="justify-content-evenly">
-                        <div class="d-flex">
-                            <a class="flex-grow-1 dropdown-item py-2" @onclick="@(e => AddTag(@tag))">@tag</a> 
+        </div>
+        <div class="col-3">
+            <div class="card-info">
+                <div class="card-info-bar mb-0">
+                    <h4>Choose your game tags:</h4>
+                </div>
+                <div class="card-info-body">
+                    @foreach(var tag in tags)
+                    {
+                        <div class="tag-select">
+                            <a class="tag-name" @onclick="@(e => AddTag(@tag))">@tag</a> 
                             @if(newGame.Tags.Contains(tag))
                             {
-                                <a class="btn btn-danger" @onclick="@(e => DeleteTag(@tag))">X</a>
+                                <a class="btn-delete-tag" @onclick="@(e => DeleteTag(@tag))">X</a>
                             }
                         </div>
-                    </div>
-                }
-                <input class="border-0 px-3 py-2 tag-add-input" type="text" placeholder="or add new tag..." @bind="newTag" @onkeyup="OnKeyPressed">
+                    }
+                </div>
+                <div class="tag-input">
+                    <input class="tag-search" type="text" placeholder="or add new tag..." @bind="newTag" @onkeyup="OnKeyPressed">
+                    <a class="btn-add-tag" @onclick="AddNewTag">></a>
+                </div>
             </div>
         </div>
-
     </div>
     @if(message != String.Empty)
     {
         <h5 class="h5">@message</h5>
     }
-</div>
+</main>
 
 @code {
 
@@ -150,7 +145,7 @@
 
     public void AddTag(string name)
     {
-        if(!newGame.Tags.Contains(name) && name is not "")
+        if(!newGame.Tags.Contains(name) && !string.IsNullOrWhiteSpace(name))
         {
             newGame.Tags.Add(name); 
             StateHasChanged();
@@ -165,25 +160,31 @@
     {
         if(e.Key == "Enter")
         {
-            string tempString = newTag;
+            string tempString = newTag.Trim();
             AddTag(tempString);
             newTag = "";
             StateHasChanged();
         }
     }
 
+    public void AddNewTag()
+    {
+        if(!string.IsNullOrWhiteSpace(newTag))
+        {
+            string tempString = newTag.Trim();
+            AddTag(tempString);
+            newTag = "";
+            StateHasChanged();            
+        }
+    }
+
     public void DeleteTag(string name)
     {
         newGame.Tags.Remove(name);
-        foreach(var i in originalTagList)
-        {
-            Console.WriteLine(i);
-        }
         if(!originalTagList.Contains(name))
         {
             Console.WriteLine("Deleting " + name);
             tags.Remove(name);
         }
-        //StateHasChanged();
     }
 }

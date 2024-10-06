@@ -3,83 +3,80 @@
 @inject NavigationManager NavigationManager
 @using GamesList
 
-<nav class="navbar bg-body-tertiary">
-     <div class="container-fluid align-items-stretch p-0">
-        <a class="h1 mb-0 px-3 align-content-center" href="/">MY GAMES LIST</a>
-        <input class="search-bar flex-grow-1" placeholder="search name or tag..." aria-label="Search" @oninput="ShowGames" >
-        <a href="addgame" class="btn btn-outline-success align-content-center" >Add</a>
-    </div>
+<nav>
+    <a href="/" class="title">MY GAMES LIST</a>
+    <a class="icon"><i class="fa-solid fa-magnifying-glass fa-xs"></i></a>
+    <input class="search-bar" placeholder="search name or tag..." @oninput="ShowGames" />
+    <a href="addgame" class="icon"><i class="fa-solid fa-plus fa-sm"></i></a>
 </nav>
 
-<div class="main grid m-3">
-    <div class="row">
-        <div class="col-4 ms-5">
+<main>
+    <div class="row main-container">
+        <div class="col-5">
             @foreach(var game in ShownGames)
             {
-                <div class="card my-4">
-                    <button class="game-card-button p-0 d-flex align-items-center text-start" @onclick="@(e => ChangeShownGame(@game.Title))">
-                        @if (@game.ImageUri == null) {
-                            <img class="image-placeholder" src="img_placeholder.svg" width="100px" height="100px">
-                        }
-                        else {
-                            <img src="@game.ImageUri" width="100px" height="100px">
-                        }
-                        <span class="h3 ms-4">@game.Title</span>
-                    </button>
+                <div class="card" @onclick="@(e => ChangeShownGame(@game.Title))">
+                    @if (@game.ImageUri == null) {
+                        <img src="img_placeholder.svg">
+                    }
+                    else {
+                        <img src="@game.ImageUri">
+                    }
+                    <span class="game-title">@game.Title</span>
                 </div>
             }
         </div>
-        <div class="col-4 offset-2 position-static">
+        <div class="col-5">
             @if(ShownGame is not null)
             {
-                <div class="card">
-                    <div class="card-title h3 d-flex">
-                        <span class="flex-grow-1 m-2">@ShownGame.Title</span>
-                        @* change to icons here *@
-                        <button class="btn btn-outline-success align-self-stretch px-4" @onclick="@DeleteGame">X</button>
-                        <a href="edit/@ShownGame.Id" class="btn btn-outline-success align-content-center px-4">I</a>
+                <div class="card-info">
+                    <div class="card-info-bar">
+                        <h3>@ShownGame.Title</h3>
+                        <a class="icon" @onclick="@DeleteGame"><i class="fa-solid fa-trash"></i></a>
+                        <a href="edit/@ShownGame.Id" class="icon"><i class="fa-solid fa-pen"></i></a>
+                        <a class="icon" @onclick="@CloseShownGame"><i class="fa-solid fa-xmark fa-lg"></i></a>
                     </div>
-                    <div class="card-body">
-                        <div class="row my-3">
-                            <div class="col-3 data-label">
+                    <div class="card-info-body">
+                        <div class="row card-info-row">
+                            <div class="col-3">
                                 Rating:
                             </div>
-                            <div class="col-9 fs-5">
-                                @(ShownGame.Rating)/10
+                            <div class="col-auto">
+                                @(ShownGame.Rating is not null ? ShownGame.Rating : "?")/10
                             </div>
                         </div>
-                        <div class="row my-3">
-                            <div class="col-3 data-label">
-                                Release date:
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Release Date:
                             </div>
-                            <div class="col-9 fs-5">
+                            <div class="col-auto">
                                 @ShownGame.ReleaseTime.ToShortDateString()
                             </div>
                         </div>
-                        <div class="row my-3">
-                            <div class="col-3 data-label">
-                                Playing since:
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Playing Since:
                             </div>
-                            <div class="col-9 fs-5">
-                                @ShownGame.ReleaseTime.ToShortDateString()
+                            <div class="col-auto">
+                                @ShownGame.PlayingSinceTime.ToShortDateString()
                             </div>
                         </div>
-                        <div class="row my-3">
-                            <div class="col-3 data-label">
+                        <div class="row card-info-row">
+                            <div class="col-3">
                                 Tags:
                             </div>
-                            <div class="col-9 fs-5">
+                            <div class="col-auto">
                                 @for (int i = 0; i < ShownGame.Tags.Count; i++)
                                 {
                                     <span>@ShownGame.Tags[i]@(i < ShownGame.Tags.Count - 1 ? ", " : "")</span>
                                 }
                             </div>
                         </div>
-                        <div class="row my-3">
-                            <div class="col-3 data-label">
+                        <div class="row card-info-row">
+                            <div class="col-3">
                                 Desc:
                             </div>
-                            <div class="col-9 fs-5">
+                            <div class="col-auto">
                                 @ShownGame.Description
                             </div>
                         </div>
@@ -88,7 +85,7 @@
             }
         </div>
     </div>
-</div>
+</main>
 
 @code {
     List<GameDto> Games = new List<GameDto>();
@@ -113,6 +110,12 @@
     public void ChangeShownGame(string gameTitle)
     {
         ShownGame = Games.Find(g => g.Title == gameTitle);
+    }
+
+    public void CloseShownGame()
+    {
+        ShownGame = null;
+        StateHasChanged();
     }
 
     public async void DeleteGame()

@@ -2,6 +2,113 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
+<nav>
+    <a href="/" class="title">MY GAMES LIST</a>
+    <a href="addgame" class="icon"><i class="fa-solid fa-plus fa-sm"></i></a>
+</nav>
+
+<main>
+    <div class="row">
+        <div class="col-4">
+            <div class="card-info">
+                    <div class="card-info-bar">
+                        <h3>Edit your game</h3>
+                    </div>
+                    <div class="card-info-body">
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Title:
+                            </div>
+                            <div class="col-auto">
+                                <InputText @bind-Value="editedGame.Title" class="game-input" />
+                            </div>
+                        </div>
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Rating:
+                            </div>
+                            <div class="col-auto">
+                                <InputNumber @bind-Value="editedGame.Rating" class="game-input" />
+                            </div>
+                        </div>
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Release Date:
+                            </div>
+                            <div class="col-auto">
+                                <InputDate @bind-Value="editedGame.ReleaseTime" class="game-input" />
+                            </div>
+                        </div>
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Playing Since:
+                            </div>
+                            <div class="col-auto">
+                                <InputDate @bind-Value="editedGame.PlayingSinceTime" class="game-input" />
+                            </div>
+                        </div>
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Tags:
+                            </div>
+                            <div class="col-auto">
+                                <span>
+                                    @for (int i = 0; i < editedGame.Tags.Count; i++)
+                                    {
+                                        @editedGame.Tags[i]@(i < editedGame.Tags.Count - 1 ? ", " : "")
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row card-info-row">
+                            <div class="col-3">
+                                Desc:
+                            </div>
+                            <div class="col-auto">
+                                <InputTextArea @bind-Value="editedGame.Description" class="game-input" placeholder="describe your game here"/>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-confirm" @onclick="SaveGame">Add game</button>
+            </div>
+        </div>
+        <div class="col-3 helper-window">
+            <div class="card-info">
+                <div class="card-info-bar mb-0">
+                      <h4>Image URL</h4>
+                </div>
+                <InputText class="url-input" @bind-Value="editedGame.ImageUri" placeholder="enter your url here" />
+
+                <img class="image-preview" src="@editedGame.ImageUri">
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card-info">
+                <div class="card-info-bar mb-0">
+                    <h4>Choose your game tags:</h4>
+                </div>
+                <div class="card-info-body">
+                    @foreach(var tag in tags)
+                    {
+                        <div class="tag-select">
+                            <a class="tag-name" @onclick="@(e => AddTag(@tag))">@tag</a> 
+                            @if(editedGame.Tags.Contains(tag))
+                            {
+                                <a class="btn-delete-tag" @onclick="@(e => DeleteTag(@tag))">X</a>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="tag-input">
+                    <input class="tag-search" type="text" placeholder="or add new tag..." @bind="newTag" @onkeyup="OnKeyPressed">
+                    <a class="btn-add-tag" @onclick="AddNewTag">></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@* 
 <nav class="navbar bg-body-tertiary">
      <div class="container-fluid align-items-stretch p-0">
         <a class="h1 mb-0 px-3 align-content-center" href="/">MY GAMES LIST</a>
@@ -111,7 +218,7 @@
         </div>
 
     </div>
-</div>
+</div> *@
 
 @code {
     [Parameter] public int id { get; set; }
@@ -163,6 +270,17 @@
             AddTag(tempString);
             newTag = "";
             StateHasChanged();
+        }
+    }
+
+    public void AddNewTag()
+    {
+        if(!string.IsNullOrWhiteSpace(newTag))
+        {
+            string tempString = newTag.Trim();
+            AddTag(tempString);
+            newTag = "";
+            StateHasChanged();            
         }
     }
 
