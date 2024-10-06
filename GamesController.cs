@@ -99,7 +99,7 @@ public class GamesController : Controller
             ReleaseTime = gameDto.ReleaseTime,
             PlayingSinceTime = gameDto.PlayingSinceTime,
             Rating = gameDto.Rating,
-            ImageUri = gameDto.ImageUri,
+            ImageUri = string.IsNullOrWhiteSpace(gameDto.ImageUri) ? null : gameDto.ImageUri,
             GameTags = tags.Select(tag => new GameTags
             {
                 Tag = tag
@@ -157,7 +157,7 @@ public class GamesController : Controller
         game.ReleaseTime = gameDto.ReleaseTime;
         game.PlayingSinceTime = gameDto.PlayingSinceTime;
         game.Rating = gameDto.Rating;
-        game.ImageUri = gameDto.ImageUri;
+        game.ImageUri = string.IsNullOrWhiteSpace(gameDto.ImageUri) ? null : gameDto.ImageUri;
 
         await _db.SaveChangesAsync();
 

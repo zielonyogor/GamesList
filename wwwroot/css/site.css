@@ -146,6 +146,22 @@ button:focus, a:focus{
   padding: 0 0.3em;
 }
 
+a.icon:hover,  button.icon:hover{
+  background-color: #6A6B83;
+}
+
+a.icon:active, button.icon:hover{
+  background-color: #6A6B83;
+  color: #533747;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font: inherit;
+  border-left: var(--element-border);
+}
+
 .card-info {
   min-width: 0;
   border: var(--element-border);
@@ -354,3 +370,5 @@ input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
