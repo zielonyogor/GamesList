@@ -100,14 +100,32 @@
                 <div class="card-info-bar mb-0">
                       <h4>Choose game icon</h4>
                 </div>
-                <InputSelect @bind-Value="newGame.ImageUri">
-                    <option selected value="icon-star">Star</option>
-                    <option value="icon-heart">Heart</option>
-                    <option value="icon-triangle">Triangle</option>
-                    <option value="icon-diamond">Diamond</option>
-                    <option value="icon-circle">Circle</option>
-                    <option value="icon-house">House</option>
-                </InputSelect>
+                <InputRadioGroup @bind-Value="newGame.ImageUri">
+                    <label>
+                        <InputRadio Value=@("icon-star") /> 
+                        <div>star</div>
+                    </label>
+                    <label>
+                        <InputRadio Value=@("icon-heart") />
+                        <div>heart</div>
+                    </label>
+                    <label>
+                        <InputRadio Value=@("icon-triangle") /> 
+                        <div>triangle</div>
+                    </label>
+                    <label>
+                        <InputRadio Value=@("icon-diamond") /> 
+                        <div>diamond</div>
+                    </label>
+                    <label>
+                        <InputRadio Value=@("icon-circle") /> 
+                        <div>circle</div>
+                    </label>
+                    <label>
+                        <InputRadio Value=@("icon-house") /> 
+                        <div class="last-radio">house</div>
+                    </label>
+                </InputRadioGroup>
             </div>
         </div>
     </div>

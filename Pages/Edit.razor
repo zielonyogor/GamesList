@@ -75,16 +75,6 @@
         <div class="col-3 helper-window">
             <div class="card-info">
                 <div class="card-info-bar mb-0">
-                      <h4>Image URL</h4>
-                </div>
-                <InputText class="url-input" @bind-Value="editedGame.ImageUri" @oninput="CheckImageURL" placeholder="enter your url here" />
-
-                <img class="image-preview" src="@editedGame.ImageUri">
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="card-info">
-                <div class="card-info-bar mb-0">
                     <h4>Choose your game tags:</h4>
                 </div>
                 <div class="card-info-body">
@@ -103,6 +93,39 @@
                     <input class="tag-search" type="text" placeholder="or add new tag..." @bind="newTag" @onkeyup="OnKeyPressed">
                     <a class="btn-add-tag" @onclick="AddNewTag">></a>
                 </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card-info">
+                <div class="card-info-bar mb-0">
+                      <h4>Choose game icon</h4>
+                </div>
+                <InputRadioGroup @bind-Value="editedGame.ImageUri">
+                    <label>
+                        <InputRadio Value=@("icon-star") /> 
+                        <div>star</div>
+                    </label>
+                    <label>
+                        <InputRadio Value=@("icon-heart") />
+                        <div>heart</div>
+                    </label>
+                    <label>
+                        <InputRadio Value=@("icon-triangle") /> 
+                        <div>triangle</div>
+                    </label>
+                    <label>
+                        <InputRadio Value=@("icon-diamond") /> 
+                        <div>diamond</div>
+                    </label>
+                    <label>
+                        <InputRadio Value=@("icon-circle") /> 
+                        <div>circle</div>
+                    </label>
+                    <label>
+                        <InputRadio Value=@("icon-house") /> 
+                        <div class="last-radio">house</div>
+                    </label>
+                </InputRadioGroup>
             </div>
         </div>
     </div>

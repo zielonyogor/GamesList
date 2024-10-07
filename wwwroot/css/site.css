@@ -150,7 +150,7 @@ a.icon:hover,  button.icon:hover{
   background-color: #6A6B83;
 }
 
-a.icon:active, button.icon:hover{
+a.icon:active, button.icon:active{
   background-color: #6A6B83;
   color: #533747;
 }
@@ -208,11 +208,6 @@ a.icon:active, button.icon:hover{
   font-size: 0.8em;
   margin-right: 0.6em;
 }
-
-/* .card-info-row > * {
-  display: flex;
-  align-items: center;
-} */
 
 .card-info-row:nth-child(4) div:last-child{
   min-height: 8vh;
@@ -375,10 +370,31 @@ input::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.img-placeholder-text {
-  color: red;
+[type=radio] { 
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-.disabled {
-  display: none;
+[type=radio] + div {
+  box-sizing: border-box;
+  width: 100%;
+  cursor: pointer;
+  padding: 0.2em 0.4em;
+  border-bottom: var(--tag-border);
+}
+
+.last-radio {
+  border-bottom: none !important;
+}
+
+[type=radio]:hover + div {
+  color: #86BBBD;
+  background-color: #5F506B;
+} 
+
+[type=radio]:checked + div {
+  color: #F5F5F5;
+  background-color: #5F506B;
 }

@@ -13,6 +13,6 @@ public class GameDto
 
     [Range(1, 10)]
     public int? Rating { get; set; }
-    public string? ImageUri { get; set; }
+    public string? ImageUri { get; set; } = "icon-star";
     public List<string> Tags { get; set; } = [];
 }
