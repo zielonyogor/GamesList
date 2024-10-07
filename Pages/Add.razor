@@ -28,7 +28,7 @@
                                 Rating:
                             </div>
                             <div class="col-auto">
-                                <InputNumber @bind-Value="newGame.Rating" class="game-input" />
+                                <InputNumber @bind-Value="newGame.Rating" class="game-input game-input-rating" />/10
                             </div>
                         </div>
                         <div class="row card-info-row">
@@ -75,17 +75,7 @@
         <div class="col-3 helper-window">
             <div class="card-info">
                 <div class="card-info-bar mb-0">
-                      <h4>Image URL</h4>
-                </div>
-                <InputText class="url-input" @bind-Value="newGame.ImageUri" placeholder="enter your url here" />
-
-                <img class="image-preview" src="@newGame.ImageUri">
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="card-info">
-                <div class="card-info-bar mb-0">
-                    <h4>Choose your game tags:</h4>
+                    <h4>Choose your game tags</h4>
                 </div>
                 <div class="card-info-body">
                     @foreach(var tag in tags)
@@ -105,6 +95,21 @@
                 </div>
             </div>
         </div>
+        <div class="col-3">
+            <div class="card-info">
+                <div class="card-info-bar mb-0">
+                      <h4>Choose game icon</h4>
+                </div>
+                <InputSelect @bind-Value="newGame.ImageUri">
+                    <option selected value="icon-star">Star</option>
+                    <option value="icon-heart">Heart</option>
+                    <option value="icon-triangle">Triangle</option>
+                    <option value="icon-diamond">Diamond</option>
+                    <option value="icon-circle">Circle</option>
+                    <option value="icon-house">House</option>
+                </InputSelect>
+            </div>
+        </div>
     </div>
     @if(message != String.Empty)
     {
@@ -120,9 +125,9 @@
         PlayingSinceTime = DateOnly.FromDateTime(DateTime.Now)
     };
     List<string> tags = new List<string>();
-    List<string> originalTagList;
+    List<string> originalTagList = new List<string>();
 
-    string newTag;
+    string newTag = string.Empty;
     
     protected override async Task OnInitializedAsync()
     {
@@ -183,7 +188,6 @@
         newGame.Tags.Remove(name);
         if(!originalTagList.Contains(name))
         {
-            Console.WriteLine("Deleting " + name);
             tags.Remove(name);
         }
     }

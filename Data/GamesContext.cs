@@ -34,7 +34,7 @@ public class GameContext : DbContext
         builder.Entity<Game>().HasData(
             new Game {Id = 1, Title="Genshin Impact", 
             Description = "Step into vast magical world of Adventure", 
-            ImageUri = "https://variety.com/wp-content/uploads/2022/09/Genshin-Impact-Anime-Series-Concept.png", 
+            ImageUri = "icon-diamond", 
             Rating = 6, 
             ReleaseTime = new DateOnly(2020, 9, 28),
             PlayingSinceTime = new DateOnly(2021, 3, 31)});

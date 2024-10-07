@@ -28,7 +28,7 @@
                                 Rating:
                             </div>
                             <div class="col-auto">
-                                <InputNumber @bind-Value="editedGame.Rating" class="game-input" />
+                                <InputNumber @bind-Value="editedGame.Rating" class="game-input game-input-rating" />/10
                             </div>
                         </div>
                         <div class="row card-info-row">
@@ -77,7 +77,7 @@
                 <div class="card-info-bar mb-0">
                       <h4>Image URL</h4>
                 </div>
-                <InputText class="url-input" @bind-Value="editedGame.ImageUri" placeholder="enter your url here" />
+                <InputText class="url-input" @bind-Value="editedGame.ImageUri" @oninput="CheckImageURL" placeholder="enter your url here" />
 
                 <img class="image-preview" src="@editedGame.ImageUri">
             </div>
@@ -106,14 +106,19 @@
             </div>
         </div>
     </div>
+    @if(message != String.Empty)
+    {
+        <h5 class="h5">@message</h5>
+    }
 </main>
 
 @code {
+    string message = String.Empty;
     [Parameter] public int id { get; set; }
     GameDto editedGame = new GameDto();
 
     List<string> tags = new List<string>();
-    List<string> originalTagList;
+    List<string> originalTagList = new List<string>();
 
     string newTag;
 
@@ -133,7 +138,7 @@
         }
         else
         {
-            Console.WriteLine("hmmmm");
+             message = "Something went wrong, try again";
         }
     }
 
@@ -175,14 +180,16 @@
     public void DeleteTag(string name)
     {
         editedGame.Tags.Remove(name);
-        foreach(var i in originalTagList)
-        {
-            Console.WriteLine(i);
-        }
         if(!originalTagList.Contains(name))
         {
-            Console.WriteLine("Deleting " + name);
             tags.Remove(name);
         }
+    }
+
+    public void CheckImageURL(ChangeEventArgs e)
+    {
+        Console.WriteLine("input changed");
+
+        //simplest way to check if image exists
     }
 }

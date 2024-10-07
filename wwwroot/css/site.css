@@ -129,7 +129,7 @@ button:focus, a:focus{
   margin-left: 0.5em;
 }
 
-.card img{
+.game-icon{
   margin: 0.5em;
   height: 70%;
   aspect-ratio: 1 / 1;
@@ -338,6 +338,10 @@ a.icon:active, button.icon:hover{
   color:#F5F5F5;
 }
 
+.game-input-rating {
+  width: 2ch;
+}
+
 textarea {
   font-family: inherit;
   width: 100%;
@@ -371,4 +375,10 @@ input::-webkit-outer-spin-button {
   margin: 0;
 }
 
+.img-placeholder-text {
+  color: red;
+}
 
+.disabled {
+  display: none;
+}
