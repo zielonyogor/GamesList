@@ -169,6 +169,7 @@ public class GamesController : Controller
     {
         var game = await _db.Games
             .Include(g => g.GameTags)
+            .ThenInclude(gt => gt.Tag)
             .FirstOrDefaultAsync(g => g.Id == id);
         
         if(game is null)
@@ -176,7 +177,25 @@ public class GamesController : Controller
             return NotFound();
         }
 
+        var gameTags = game.GameTags
+            .Select(gt => gt.Tag)
+            .ToList();
+
         _db.Games.Remove(game);
+        await _db.SaveChangesAsync();
+
+        foreach (var tag in gameTags)
+        {
+            var toBeDeleted = !await _db.GameTags
+                .AnyAsync(gt => gt.TagId == tag.Id);
+            
+            if(toBeDeleted)
+            {
+                _db.Tags.Remove(tag);
+                Console.WriteLine("deleting: " + tag.Name);
+            }
+        }
+
         await _db.SaveChangesAsync();
 
         return NoContent();

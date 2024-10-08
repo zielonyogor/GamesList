@@ -61,6 +61,7 @@ nav a.title:visited {
   background: none;
   border: none;
   border-left: var(--element-border);
+  padding-left: 0.6em;
   font-size: 1rem;
   flex-grow: 1;
   color: #533747;
@@ -110,7 +111,17 @@ button:focus, a:focus{
   margin-bottom: 0 !important;
 }
 
-
+.no-games-text {
+  width: 100%;
+  margin-top: 12vh;
+  padding: 0.6rem 0;
+  background-color: #5F506B;
+  border-bottom: var(--element-border);
+  border-top: var(--element-border);
+  color: #86BBBD;
+  text-align: center;
+  font-weight: normal;
+}
 
 .card {
   min-width: 0;

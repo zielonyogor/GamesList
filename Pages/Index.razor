@@ -11,6 +11,10 @@
 </nav>
 
 <main>
+    @if(ShownGames.Count == 0)
+    {
+        <h1 class="no-games-text">start by adding some games!</h1>
+    }
     <div class="row main-container">
         <div class="col-5">
             @foreach(var game in ShownGames)
